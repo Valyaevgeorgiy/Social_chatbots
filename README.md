@@ -1,1 +1,4 @@
-# Social_chatbots
+# Ботыыы
+
+- [vk_bots]() — 
+- [tg_bots]() — 
