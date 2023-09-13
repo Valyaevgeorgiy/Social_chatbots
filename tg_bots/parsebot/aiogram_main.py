@@ -4,9 +4,8 @@ import asyncio
 from parser import get_sales
 from aiogram.types import Message
 from aiogram import Bot, Dispatcher, F
-from bs4 import BeautifulSoup
 
-telegram_token = 'токен ТГ бота'
+telegram_token = 'токен тг бота'
 
 bot = Bot(telegram_token)
 dp = Dispatcher()
@@ -24,7 +23,6 @@ async def handle_monitoring(message: Message):
     is_monitoring = False
 
     await message.answer("Отслеживание списка номеров успешно запущено!")
-    time.sleep(5)
     await message.answer("Получаем первый результат...")
 
     try:
@@ -36,7 +34,7 @@ async def handle_monitoring(message: Message):
 
         while is_monitoring:
 
-            time.sleep(20)
+            time.sleep(15)
             new_phones_dict, top10_list = await get_sales()
 
             if (new_phones_dict != {}) and (list(phones_dict.keys()) != list(new_phones_dict.keys())) and (list(phones_dict.values()) != list(new_phones_dict.values())):
