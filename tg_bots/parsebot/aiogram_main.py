@@ -5,7 +5,7 @@ from parser import get_sales
 from aiogram.types import Message
 from aiogram import Bot, Dispatcher, F
 
-telegram_token = '6344333921:AAEdo2sDq8hCLENu18i4SyID0Hoy7aNSBqI'
+telegram_token = 'токен группы'
 
 bot = Bot(telegram_token)
 dp = Dispatcher()
