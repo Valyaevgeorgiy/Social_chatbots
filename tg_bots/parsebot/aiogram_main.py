@@ -5,7 +5,7 @@ from parser import get_sales
 from aiogram.types import Message
 from aiogram import Bot, Dispatcher, F
 
-telegram_token = 'токен тг бота'
+telegram_token = '6344333921:AAEdo2sDq8hCLENu18i4SyID0Hoy7aNSBqI'
 
 bot = Bot(telegram_token)
 dp = Dispatcher()
@@ -30,7 +30,7 @@ async def handle_monitoring(message: Message):
 
         phones_dict, top10_list = await get_sales()
 
-        await message.answer(top10_list)
+        await message.answer(top10_list, parse_mode="html")
 
         while is_monitoring:
 
@@ -41,7 +41,7 @@ async def handle_monitoring(message: Message):
                 phones_dict = new_phones_dict
                 await message.answer("Есть изменения!")
                 time.sleep(2)
-                await message.answer(top10_list)
+                await message.answer(top10_list, parse_mode="html")
             elif (new_phones_dict == {}):
                 await message.answer(top10_list)
                 break
@@ -65,5 +65,9 @@ async def echo_all(message: Message):
 async def main():
     await dp.start_polling(bot)
 
+
 if __name__ == "__main__":
-    asyncio.run(main())
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        print("Выход с бота")

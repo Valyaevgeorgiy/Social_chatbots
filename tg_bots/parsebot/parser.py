@@ -4,6 +4,55 @@ import time
 from bs4 import BeautifulSoup
 from datetime import datetime
 
+# здесь ниже функционал, который находит одинаковые по структуре цифр номера телефонов и их подчёркивает!
+
+# async def count_shared_digits(number1, number2):
+#     dupl_digits = 0
+#     for ind in range(len(number1)):
+#         if number1[ind] == number2[ind]:
+#             dupl_digits += 1
+#         else:
+#             break
+#     return dupl_digits
+
+
+# async def check_dupls(list_numbers):
+#     for ind in range(len(list_numbers)):
+#         now_number = list_numbers[ind]
+#         for number in list_numbers:
+#             if now_number[5:] == number[5:]:
+#                 # пропускаем тот номер из списка, с которого и начали сравнение
+#                 continue
+#             else:
+#                 if await count_shared_digits(now_number[5:], number[5:]) >= 3:
+#                     print(now_number, number)
+#                     print()
+#                     ind_dupl_num = list_numbers.index(number)
+#                     # выделение группы одинаковых номеров уникальной разметкой HTML
+#                     if "<u>" not in list_numbers[ind] and "<u>" not in list_numbers[ind_dupl_num]:
+#                         list_numbers[ind] = "<u>"+list_numbers[ind]+"</u>"
+#                         list_numbers[ind_dupl_num] = "<u>"+number+"</u>"
+#                 else:
+#                     continue
+#     return list_numbers
+
+# -------------------------------------------------------------------------------------------
+
+# далее уже функционал, который находит в номерах повторение одних и тех же цифр (2 и более раз)!
+
+async def check_dupls(list_numbers):
+    for ind in range(len(list_numbers)):
+        number = list_numbers[ind][5:9] + list_numbers[ind][10:]
+        # number = "99675679"
+        for ind_d in range(len(number)):
+            if ind_d < (len(number) - 1):
+                now_digit = number[ind_d]
+                if now_digit == number[ind_d+1]:
+                    # выделяем номер подчёркиванием!
+                    list_numbers[ind] = "<u>"+list_numbers[ind]+"</u>"
+                    break
+    return list_numbers
+
 
 async def get_sales():
     time.sleep(5)
@@ -35,7 +84,9 @@ async def get_sales():
                     top10_list = "Данные на " + str(formatted_time) + "\n"
 
                     ind = 0
-                    for key, value in phones_dict.items():
+                    top10_numbers, top10_sales = await check_dupls(
+                        list(phones_dict.keys())), list(phones_dict.values())
+                    for key, value in dict(zip(top10_numbers, top10_sales)).items():
                         ind += 1
                         top10_list += f'{ind}. {key} ({value} TON)\n'
 
